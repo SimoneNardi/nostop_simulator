@@ -73,6 +73,8 @@ bool getNeighbours(
 ////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+	//parameters:
+    
 	ros::init(argc, argv, "Simulator");
 
 	ROS_INFO("Simulator is running.");
