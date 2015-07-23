@@ -49,7 +49,6 @@ set(simulator_SOURCES
         src/AgentInterface.cpp
         src/AgentUpdater.cpp
         src/AlgorithmUpdater.cpp
-        src/AreaCreator.cpp
         src/CoverageApplication.cpp
         src/PlayerIDSender.cpp
         src/PlayersMaker.cpp
