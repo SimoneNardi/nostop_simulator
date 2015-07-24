@@ -8,7 +8,6 @@
 #pragma once
 
 #include "guard.h"
-
 #include <memory>
 #include <map>
 #include <set>
