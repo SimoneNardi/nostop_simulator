@@ -3,7 +3,7 @@
 #include "AgentUpdater.h"
 #include "WorldUpdater.h"
 #include "VisualUpdater.h"
-#include "LearningWorld.h"
+#include "learningWorld.h"
 #include "AgentCall.h"
 
 #include "world.h"

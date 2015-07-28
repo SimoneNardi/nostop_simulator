@@ -1,5 +1,5 @@
 #include "AlgorithmUpdater.h"
-#include "LearningWorld.h"
+#include "learningWorld.h"
 #include "AgentCall.h"
 
 #include "ros/ros.h"

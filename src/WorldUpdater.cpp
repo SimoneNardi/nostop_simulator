@@ -1,5 +1,5 @@
 #include "WorldUpdater.h"
-#include "LearningWorld.h"
+#include "learningWorld.h"
 
 #include "ros/ros.h"
 

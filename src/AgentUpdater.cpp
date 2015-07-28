@@ -1,5 +1,5 @@
 #include "AgentUpdater.h"
-#include "LearningWorld.h"
+#include "learningWorld.h"
 #include "AgentCall.h"
 #include "AgentInterface.h"
 

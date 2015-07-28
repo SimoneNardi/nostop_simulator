@@ -8,7 +8,7 @@
 
 #include "AreaCreator.h"
 #include "PlayersMaker.h"
-#include "LearningWorld.h"
+#include "learningWorld.h"
 #include "CoverageApplication.h"
 
 #include "learningAlgorithm.h"
