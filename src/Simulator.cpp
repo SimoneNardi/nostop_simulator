@@ -27,64 +27,38 @@
 std::shared_ptr<Robotics::GameTheory::LearningWorld> g_coverage = nullptr;
 
 ////////////////////////////////////////////////////////////////
-bool getBenefit(
-	nostop_agent::GuardBenefitData::Request  &req,
-	nostop_agent::GuardBenefitData::Response &res)
-{
-	Robotics::GameTheory::WorldPtr l_world = g_coverage->getWorld();
-	Robotics::GameTheory::DiscretizedAreaPtr l_space = l_world->getSpace();
-	Robotics::GameTheory::SquarePtr l_square = l_space->getSquare(req.row, req.col);
-
-	// calcolare il benefit associato all'area (col,row)
-	if ( l_square && l_square->isValid() )
-	{
-		res.benefit = l_square->getThiefValue();
-	}
-	else
-		res.benefit = 0;
-
-	ROS_INFO("Benefit requested for: col=%ld, row=%ld", (long int)req.col, (long int)req.row);
-	ROS_INFO("Sending back response: %ld", (long int)res.benefit);
-	return true;
-}
-
-////////////////////////////////////////////////////////////////
-bool getNeighbours(
-	nostop_agent::GuardNeighboursData::Request  &req,
-	nostop_agent::GuardNeighboursData::Response &res)
-{
-	Robotics::GameTheory::WorldPtr l_world = g_coverage->getWorld();
-	Robotics::GameTheory::DiscretizedAreaPtr l_space = l_world->getSpace();
-	Robotics::GameTheory::SquarePtr l_square = l_space->getSquare(req.row, req.col);
-
-	// calcolare il numero di robot che monitora l'area (col,row)
-	if ( l_square && l_square->isValid() )
-	{
-		res.neighbors = l_square->getTheNumberOfAgent();
-	}
-	else
-		res.neighbors = 0;
-
-	ROS_INFO("Neighbours requested for: col=%ld, row=%ld", (long int)req.col, (long int)req.row);
-	ROS_INFO("Sending back response: %ld", (long int)res.neighbors);
-	return true;
-}
-
-////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
-	//parameters:
-    
 	ros::init(argc, argv, "Simulator");
-
-	ROS_INFO("Simulator is running.");
-
-	/////////////////////////////////////////////////
-	// ROS MAIN SERVICE
-	ros::NodeHandle n;
-	ros::ServiceServer serviceBenefit = n.advertiseService("GuardBenefit", getBenefit);
-	ros::ServiceServer serviceNeighbours = n.advertiseService("GuardNeighbours", getNeighbours);
 	
+	ROS_INFO("Simulator is running.");
+	
+	int l_number_of_guards(0), l_number_of_thieves(0);
+	
+	std::string l_str;
+	ros::NodeHandle l_node("~");
+	if (l_node.getParam("number_of_guards", l_str))
+	{
+	  l_number_of_guards = std::stoi(l_str);
+	  ROS_INFO("Received number of guards: %d", l_number_of_guards);
+	}
+	else
+	{
+	  l_number_of_guards = 3;
+	  ROS_ERROR("Apriori number of guards: %d", l_number_of_guards);
+	}
+	
+	if (l_node.getParam("number_of_thieves", l_str))
+	{
+	  l_number_of_thieves = std::stoi(l_str);
+	  ROS_INFO("Received number of thieves: %d", l_number_of_thieves);
+	}
+	else
+	{
+	  l_number_of_thieves = 1;
+	  ROS_ERROR("Apriori number of thieves: %d", l_number_of_thieves);
+	}
+
 	/////////////////////////////////////////////////
 	// AREA CREATOR
 	Robotics::GameTheory::AreaPtr l_area = nullptr;
@@ -109,7 +83,7 @@ int main(int argc, char **argv)
 
 	/////////////////////////////////////////////////
 	// PLAYER CREATOR
-	Robotics::GameTheory::PlayersMaker l_playersCreator(l_area, 3, 1);
+	Robotics::GameTheory::PlayersMaker l_playersCreator(l_area, l_number_of_guards, l_number_of_thieves);
 	std::set<Robotics::GameTheory::AgentPtr> l_players = l_playersCreator.getPlayers();
 
 	ROS_INFO("Players are connected.");
