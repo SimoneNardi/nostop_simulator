@@ -1,0 +1,8 @@
+<launch>
+    
+  <node pkg="nostop_simulator" type="Simualtor" name="$(anon Simulator)" required="true" output="screen">
+    <param name="number_of_guards" value="2" />
+    <param name="number_of_thieves" value="1" />
+  </node>
+
+</launch>
