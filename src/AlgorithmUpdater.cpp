@@ -3,6 +3,8 @@
 #include "AgentCall.h"
 
 #include "ros/ros.h"
+#include "nav_msgs/OccupancyGrid.h"
+
 using namespace std;
 using namespace Robotics;
 using namespace Robotics::GameTheory;
@@ -14,13 +16,13 @@ void AlgorithmUpdater::run()
 
 	ROS_INFO("Application is running on AlgorithmUpdater thread.");
 
+	std::vector<int8_t> l_data;
 	int count = 0;
 	while (ros::ok())
 	{
 		m_caller->wait();
 		
-		if( !m_algorithm->evaluateScreenshot() )
-			break;
+		this->publish(l_data);
 
 		m_caller->reset();
 		
@@ -38,8 +40,20 @@ AlgorithmUpdater::AlgorithmUpdater(std::shared_ptr<LearningWorld> algorithm_, st
 	: ThreadBase()
 	, m_algorithm(algorithm_)
 	, m_caller(caller_)
-{}
+{
+  m_neighboursPub = m_node.advertise<nav_msgs::OccupancyGrid>("NeighboursUpdate", 1);
+}
 
 ////////////////////////////////////////////////////////////
 AlgorithmUpdater::~AlgorithmUpdater()
 {}
+
+////////////////////////////////////////////////////////////
+void AlgorithmUpdater::publish(std::vector<int8_t> & data_)
+{
+  m_algorithm->evaluateScreenshot();
+  m_algorithm->getNeighboursScreeShot(data_);
+  nav_msgs::OccupancyGrid l_msg;
+  l_msg.data = data_;
+  m_neighboursPub.publish(l_msg);
+}

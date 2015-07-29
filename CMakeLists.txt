@@ -20,8 +20,12 @@ endif()
 find_package(catkin REQUIRED COMPONENTS
   roscpp 
   std_msgs 
-  base_math
-  nostop_learning
+  geometry_msgs 
+  nav_msgs 
+  message_generation 
+  base_math 
+  nostop_learning 
+  tf
   nostop_agent
 )
 

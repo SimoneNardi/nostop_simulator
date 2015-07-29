@@ -10,6 +10,8 @@
 #include "ThreadBase.h"
 #include <memory>
 
+#include "ros/ros.h"
+
 namespace Robotics 
 {
 	namespace GameTheory
@@ -22,9 +24,14 @@ namespace Robotics
 			std::shared_ptr<LearningWorld> m_algorithm;
 			std::shared_ptr<AgentCall> m_caller;
 			
+			ros::NodeHandle m_node;
+			ros::Publisher m_neighboursPub;
+			ros::Publisher m_monitorPub;
+			ros::Publisher m_energyPub;
+			
 		protected:
 			virtual void run();
-
+			void publish(std::vector<int8_t> & neighboursData_);
 		public:
 			AlgorithmUpdater(std::shared_ptr<LearningWorld> algorithm_, std::shared_ptr<AgentCall> caller_);
 			~AlgorithmUpdater();

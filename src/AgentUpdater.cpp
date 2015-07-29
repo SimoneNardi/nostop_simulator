@@ -37,7 +37,10 @@ void AgentUpdater::run()
 		if ( m_caller->readyToGo() ) // used to avoid spurious wakeups 
 		{
 		    m_caller->notify();
-		    ROS_DEBUG("Agent ready to move.");
+		    ROS_DEBUG("Agents are ready to forward learning step.");
+		    
+		    // TODO
+		    
 		}
 		else
 		{

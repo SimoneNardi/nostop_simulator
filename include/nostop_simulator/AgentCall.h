@@ -15,6 +15,8 @@
 
 #include "Threads.h"
 
+#include "ros/ros.h"
+
 namespace Robotics 
 {
 	namespace GameTheory
@@ -27,6 +29,9 @@ namespace Robotics
 			Condition1 m_signalCall;
 			
 			bool m_notified;
+			
+			ros::NodeHandle m_node;
+			ros::Publisher m_pub;
 			
 		public:
 			AgentCall(std::set< std::shared_ptr<Guard> >& agent_);

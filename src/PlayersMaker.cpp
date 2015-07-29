@@ -46,9 +46,6 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	
 	/////////////////////////////////////////
 	// Create Agent:
-	
-	
-	
 	int l_id = -1;
 
 	// wait for agents from other machines  

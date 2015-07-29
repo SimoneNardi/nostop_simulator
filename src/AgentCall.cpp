@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "std_msgs/Bool.h"
+
 using namespace std;
 using namespace Robotics;
 using namespace Robotics::GameTheory;
@@ -12,10 +14,13 @@ AgentCall::AgentCall(std::set< std::shared_ptr<Guard> >& agent_)
 : m_notified( false )
 , m_call()
 {
+	m_pub = m_node.advertise<std_msgs::Bool>("AgentCall", 1);
+  
 	for(auto it = agent_.begin(); it != agent_.end(); ++it)
 	{
 		GuardPtr l_agent = *it;
-		m_call.insert( std::make_pair( l_agent->getID(), l_agent->getStatus() ) );
+		int l_id = l_agent->getID();
+		m_call.insert( std::make_pair( l_id, l_agent->getStatus() ) );
 	}
 }
 
@@ -23,12 +28,19 @@ AgentCall::AgentCall(std::set< std::shared_ptr<Guard> >& agent_)
 bool AgentCall::readyToGo() const
 {
 	Lock1 l_locker( m_lockCall );
+	std_msgs::Bool l_msg;
+	l_msg.data = true;
 	for(auto it = m_call.begin(); it != m_call.end(); ++it)
 	{
 		if (it->second != Agent::STANDBY)
-			return false;
+		{
+			l_msg.data = false;
+			break;
+		}
 	}
-	return true;
+	
+	m_pub.publish<std_msgs::Bool>(l_msg);
+	return l_msg.data;
 }
 
 /////////////////////////////////////////////
