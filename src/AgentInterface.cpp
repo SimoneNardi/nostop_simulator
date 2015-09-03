@@ -15,7 +15,7 @@ void AgentInterface::GuardStateUpdater(const nostop_agent::GuardStateDataConstPt
   
   CameraPosition l_camera( double(msg->max_radius), double(msg->min_radius), double(msg->heading), double(msg->view) );
   
-  AgentPosition l_position (IDSReal2D( double(msg->x), double(msg->y) ), l_camera);
+  AgentPosition l_position (Real2D( double(msg->x), double(msg->y) ), l_camera);
   
   m_agent->setCurrentPosition(l_position);
   
@@ -45,7 +45,7 @@ void AgentInterface::ThiefStateUpdater(const nostop_agent::ThiefStateDataConstPt
 { 
   ROS_DEBUG("%d heard: [%s]", int32_t(msg->id), msg->msg.c_str() );
     
-  AgentPosition l_position (IDSReal2D( double(msg->x), double(msg->y) ) );
+  AgentPosition l_position (Real2D( double(msg->x), double(msg->y) ) );
   
   m_agent->setCurrentPosition(l_position);
 }

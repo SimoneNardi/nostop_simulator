@@ -37,11 +37,11 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	std::cout << "Wait for " << number_of_players << (number_of_players > 1 ? " players," : " player,") << std::endl;
 	std::cout << "and " << number_of_thieves << (number_of_thieves > 1 ? " thieves.": " thief.")<< std::endl;
 
-	PlayerIDSender l_IDSender(number_of_players, number_of_thieves);
-	l_IDSender.sendIDToPlayer();
+	PlayerIDSender l_ender(number_of_players, number_of_thieves);
+	l_ender.sendIDToPlayer();
 	
-	int l_num_of_player = l_IDSender.getNumberOfPlayer();
-	int l_num_of_thieves = l_IDSender.getNumberOfThieves();
+	int l_num_of_player = l_ender.getNumberOfPlayer();
+	int l_num_of_thieves = l_ender.getNumberOfThieves();
 			
 	
 	/////////////////////////////////////////
@@ -61,8 +61,8 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	for (auto i = 0;  i < number_of_thieves; ++i)
 	{
 		++l_id;
-		AgentPosition l_pos(IDSReal2D(5,15)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
-		IDSReal2D l_point = l_pos.getPoint2D();
+		AgentPosition l_pos(Real2D(5,15)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
+		Real2D l_point = l_pos.getPoint2D();
 		ROS_INFO("Thief Position: %ld , %ld", (long int)l_point(0), (long int)l_point(1));
 
 		std::shared_ptr<Agent> l_agent = std::make_shared<Thief>(l_id, l_pos);
