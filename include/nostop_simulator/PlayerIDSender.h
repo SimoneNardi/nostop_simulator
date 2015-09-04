@@ -41,6 +41,9 @@ namespace Robotics
 		  
 		  int m_id;
 		  
+		  std::map<int,std::string> m_IDPlayer;
+		  std::map<int,std::string> m_IDThief;
+		  
 		public:
 			PlayerIDSender(int number_of_players = 3, int number_of_thieves = 1);
 			
@@ -61,6 +64,9 @@ namespace Robotics
 			
 			int getNumberOfPlayer() {return m_num_active_players;}
 			int getNumberOfThieves() {return m_num_active_thieves;}
+			
+			std::map<int,std::string> getIDofPlayers() const {return m_IDPlayer;}
+			std::map<int,std::string> getIDofThieves() const {return m_IDThief;}
 		};
 
 	}

@@ -10,7 +10,7 @@ using namespace Robotics;
 using namespace Robotics::GameTheory;
 
 /////////////////////////////////////////////
-AgentCall::AgentCall(std::set< std::shared_ptr<Guard> >& agent_) 
+AgentCall::AgentCall(std::set< std::shared_ptr<Guard> >& agent_)
 : m_notified( false )
 , m_call()
 {

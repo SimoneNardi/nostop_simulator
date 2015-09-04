@@ -15,6 +15,8 @@ PlayerIDSender::PlayerIDSender(int num_of_players, int num_of_thieves)
 , m_num_active_thieves(0)
 , m_id (-1)
 , m_ready(false)
+, m_IDPlayer()
+, m_IDThief()
 {}
 
 ////////////////////////////////////////////////////////////////
@@ -24,13 +26,13 @@ void PlayerIDSender::run()
   
   while(ros::ok() && !m_ready)
   {
-    if ( !(m_num_active_players < m_number_of_players ||  m_num_active_thieves < m_number_of_thieves ))
+    if ( !(m_num_active_players < m_number_of_players ||  m_num_active_thieves < m_number_of_thieves ) || m_ready)
     {
 	// this cycle has to be murdered
 	Lock1 lck(m_mtx);
 	m_ready = true;
 	m_cv.notify_all();
-	break;
+	return;
     }
     
     ros::spinOnce();
@@ -47,6 +49,9 @@ bool PlayerIDSender::getValidThiefID(
 {
   res.id = ++m_id;
   ++m_num_active_thieves;
+  
+  m_IDThief.insert( std::make_pair (res.id, req.name) );
+  
   return true;
 }
 
@@ -57,6 +62,9 @@ bool PlayerIDSender::getValidGuardID(
 {
   res.id = ++m_id;
   ++m_num_active_players;
+  
+  m_IDPlayer.insert( std::make_pair (res.id, req.name) );
+    
   return true;
 }
 
@@ -88,5 +96,4 @@ void PlayerIDSender::wait(int minute_)
     if (l_st == std::cv_status::timeout)
       m_ready = true;
   }
-  
 }

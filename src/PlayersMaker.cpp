@@ -37,38 +37,31 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	std::cout << "Wait for " << number_of_players << (number_of_players > 1 ? " players," : " player,") << std::endl;
 	std::cout << "and " << number_of_thieves << (number_of_thieves > 1 ? " thieves.": " thief.")<< std::endl;
 
-	PlayerIDSender l_ender(number_of_players, number_of_thieves);
-	l_ender.sendIDToPlayer();
-	
-	int l_num_of_player = l_ender.getNumberOfPlayer();
-	int l_num_of_thieves = l_ender.getNumberOfThieves();
-			
+	PlayerIDSender l_sender(number_of_players, number_of_thieves);
+	l_sender.sendIDToPlayer();
+	l_sender.stop();
 	
 	/////////////////////////////////////////
 	// Create Agent:
-	int l_id = -1;
-
-	// wait for agents from other machines  
-	for (auto i = 0;  i < number_of_players; ++i)
+	std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDofPlayers();
+	for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
 	{
-		++l_id;
 		AgentPosition l_pos(area_->randomPosition(), CameraPosition(area_->getDistance() / 10. ) );
-		std::shared_ptr<Agent> l_agent = std::make_shared<Guard>(1, l_id, l_pos);
+		std::shared_ptr<Agent> l_agent = std::make_shared<Guard>(1, it->first, l_pos);
 		m_agents.insert(l_agent);
 	}
 
 	// add thief to agents  
-	for (auto i = 0;  i < number_of_thieves; ++i)
+	std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDofThieves();
+	for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)
 	{
-		++l_id;
 		AgentPosition l_pos(Real2D(5,15)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
 		Real2D l_point = l_pos.getPoint2D();
 		ROS_INFO("Thief Position: %ld , %ld", (long int)l_point(0), (long int)l_point(1));
 
-		std::shared_ptr<Agent> l_agent = std::make_shared<Thief>(l_id, l_pos);
+		std::shared_ptr<Agent> l_agent = std::make_shared<Thief>(it->first, l_pos);
 		m_agents.insert(l_agent);
 	}
-
 }
 
 ////////////////////////////////////////////////////////////////
