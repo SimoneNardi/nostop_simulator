@@ -14,7 +14,7 @@ AgentCall::AgentCall(std::set< std::shared_ptr<Guard> >& agent_)
 : m_notified( false )
 , m_call()
 {
-	m_pub = m_node.advertise<std_msgs::Bool>("AgentCall", 1);
+	m_pub = m_node.advertise<std_msgs::Bool>("1", 1);
   
 	for(auto it = agent_.begin(); it != agent_.end(); ++it)
 	{
