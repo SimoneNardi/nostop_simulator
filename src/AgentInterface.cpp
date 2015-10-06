@@ -20,7 +20,7 @@ void AgentInterface::GuardStateUpdater(const nostop_agent::GuardStateConstPtr& m
   m_agent->setCurrentPosition(l_position);
   
   Agent::Status l_stat = Agent::ACTIVE;
-  switch(int32_t(1))//msg->status))
+  switch( int32_t(1) )//msg->status) ) // CONTROLLARE
   {
     case 0:
       l_stat = Agent::ACTIVE;
