@@ -11,8 +11,8 @@
 
 #include "ros/ros.h"
 
-#include "nostop_agent/GuardStateData.h"
-#include "nostop_agent/ThiefStateData.h"
+#include "nostop_agent/GuardState.h"
+#include "nostop_agent/ThiefState.h"
  
 namespace Robotics 
 {
@@ -31,8 +31,8 @@ namespace Robotics
 			
 			~AgentInterface();
 			
-			void GuardStateUpdater(const nostop_agent::GuardStateDataConstPtr& msg);
-			void ThiefStateUpdater(const nostop_agent::ThiefStateDataConstPtr& msg);
+			void GuardStateUpdater(const nostop_agent::GuardStateConstPtr& msg);
+			void ThiefStateUpdater(const nostop_agent::ThiefStateConstPtr& msg);
 		};
 
 	}

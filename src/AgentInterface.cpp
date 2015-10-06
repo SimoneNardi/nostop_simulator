@@ -9,18 +9,18 @@ using namespace Robotics;
 using namespace Robotics::GameTheory;
 
 ////////////////////////////////////////////////////////////
-void AgentInterface::GuardStateUpdater(const nostop_agent::GuardStateDataConstPtr& msg)
+void AgentInterface::GuardStateUpdater(const nostop_agent::GuardStateConstPtr& msg)
 { 
-  ROS_DEBUG("%d heard: [%s]", int32_t(msg->id), msg->msg.c_str());
+//   ROS_DEBUG("%d heard: [%s]", int32_t(msg->id), msg->msg.c_str());
   
-  CameraPosition l_camera( double(msg->max_radius), double(msg->min_radius), double(msg->heading), double(msg->view) );
+  CameraPosition l_camera( double(msg->sensor.max_radius), double(msg->sensor.min_radius), double(msg->sensor.heading), double(msg->sensor.fov) );
   
-  AgentPosition l_position (Real2D( double(msg->x), double(msg->y) ), l_camera);
+  AgentPosition l_position (Real2D( double(msg->odometry.pose.pose.position.x), double(msg->odometry.pose.pose.position.y) ), l_camera);
   
   m_agent->setCurrentPosition(l_position);
   
   Agent::Status l_stat = Agent::ACTIVE;
-  switch(int32_t(msg->status))
+  switch(int32_t(1))//msg->status))
   {
     case 0:
       l_stat = Agent::ACTIVE;
@@ -41,11 +41,11 @@ void AgentInterface::GuardStateUpdater(const nostop_agent::GuardStateDataConstPt
 }
 
 ////////////////////////////////////////////////////////////
-void AgentInterface::ThiefStateUpdater(const nostop_agent::ThiefStateDataConstPtr& msg)
+void AgentInterface::ThiefStateUpdater(const nostop_agent::ThiefStateConstPtr& msg)
 { 
-  ROS_DEBUG("%d heard: [%s]", int32_t(msg->id), msg->msg.c_str() );
+//   ROS_DEBUG("%d heard: [%s]", int32_t(msg->id), msg->msg.c_str() );
     
-  AgentPosition l_position (Real2D( double(msg->x), double(msg->y) ) );
+  AgentPosition l_position (Real2D( double(msg->odometry.pose.pose.position.x), double(msg->odometry.pose.pose.position.y) ) );
   
   m_agent->setCurrentPosition(l_position);
 }
