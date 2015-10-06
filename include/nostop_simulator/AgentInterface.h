@@ -13,7 +13,7 @@
 
 #include "nostop_agent/GuardStateData.h"
 #include "nostop_agent/ThiefStateData.h"
-
+ 
 namespace Robotics 
 {
 	namespace GameTheory
