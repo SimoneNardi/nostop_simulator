@@ -22,7 +22,7 @@
 
 #include <memory>
 
-//#include "nostopConfig.h"
+#include "GazeboDriver.h"
 
 std::shared_ptr<Robotics::GameTheory::LearningWorld> g_coverage = nullptr;
 
@@ -32,6 +32,10 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "Simulator");
 	
 	ROS_INFO("Simulator is running.");
+	
+	std::shared_ptr<GazeboDriver> l_gazebo_driver = std::make_shared<GazeboDriver>();
+	
+	ROS_INFO("Gazebo Driver is created.");
 	
 	int l_number_of_guards(0), l_number_of_thieves(0);
 	
@@ -83,7 +87,7 @@ int main(int argc, char **argv)
 
 	/////////////////////////////////////////////////
 	// PLAYER CREATOR
-	Robotics::GameTheory::PlayersMaker l_playersCreator(l_area, l_number_of_guards, l_number_of_thieves);
+	Robotics::GameTheory::PlayersMaker l_playersCreator(l_area, l_number_of_guards, l_number_of_thieves, l_gazebo_driver);
 	std::set<Robotics::GameTheory::AgentPtr> l_players = l_playersCreator.getPlayers();
 
 	ROS_INFO("Players are connected.");

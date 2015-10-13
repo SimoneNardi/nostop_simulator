@@ -11,6 +11,8 @@
 #include <set>
 #include <memory>
 
+class GazeboDriver;
+
 namespace Robotics 
 {
 	namespace GameTheory
@@ -25,7 +27,7 @@ namespace Robotics
 			std::set<std::shared_ptr<Agent> > m_agents;
 		public:
 			PlayersMaker(int number_of_players = 3, int number_of_thieves = 1);
-			PlayersMaker(std::shared_ptr<Area> area_, int number_of_players = 3, int number_of_thieves = 1);
+			PlayersMaker(std::shared_ptr<Area> area_, int number_of_players = 3, int number_of_thieves = 1, std::shared_ptr<GazeboDriver> gazebo_driver_ = nullptr);
 
 		public:      
 			std::set<std::shared_ptr<Agent> > getPlayers() const {return m_agents;}

@@ -31,7 +31,7 @@ CoverageApplication::CoverageApplication( LearningWorldPtr algorithm_ )
 	m_algorithm = algorithm_;
 	if (m_algorithm)
 	{
-		auto l_guards = m_algorithm->getWorld()->getGuards();
+		std::set< std::shared_ptr<Guard> > l_guards = m_algorithm->getWorld()->getGuards();
 	  
 		m_caller = std::make_shared<AgentCall>( l_guards );
 	  	  

@@ -1,6 +1,8 @@
 <launch>
     
-  <node pkg="nostop_simulator" type="Simualtor" name="$(anon Simulator)" required="true" output="screen">
+  <node pkg="gazebo_ros" type="gazebo" name="$(anon VisualGazebo)" required="true" output="screen" />
+    
+  <node pkg="nostop_simulator" type="Simulator" name="$(anon Simulator)" required="true" output="screen">
     <param name="number_of_guards" value="2" />
     <param name="number_of_thieves" value="1" />
   </node>

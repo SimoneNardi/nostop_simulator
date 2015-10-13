@@ -27,7 +27,12 @@ find_package(catkin REQUIRED COMPONENTS
   nostop_learning 
   tf
   nostop_agent
+  nostop_gazebo_simulator
+  gazebo_ros
 )
+
+# Depend on system install of Gazebo
+find_package(gazebo REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -35,14 +40,14 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include/${PROJECT_NAME}/
   LIBRARIES ${PROJECT_NAME}
-  DEPENDS base_math nostop_learning nostop_agent
+  DEPENDS base_math nostop_learning nostop_agent nostop_gazebo_simulator gazebo_ros
 )
 
 ###########
 ## Build ##
 ###########
 
-include_directories(include/${PROJECT_NAME}/ ${catkin_INCLUDE_DIRS})
+include_directories(include/${PROJECT_NAME}/ ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
 include_directories(src/)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
@@ -62,7 +67,7 @@ set(simulator_SOURCES
 )
 
 add_executable(Simulator ${simulator_SOURCES})
-target_link_libraries(Simulator ${catkin_LIBRARIES} base_math lemon nostop_agent nostop_learning)
+target_link_libraries(Simulator ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} base_math lemon nostop_agent nostop_learning nostop_gazebo_simulator)
 add_dependencies(Simulator nostop_simulator_gencpp)
 
 #############

@@ -11,6 +11,8 @@
 
 #include "nostop_agent/PlayerIDData.h"
 
+#include "GazeboDriver.h"
+
 #include <memory>
 #include <vector>
 
@@ -31,7 +33,7 @@ PlayersMaker::PlayersMaker(int number_of_players, int number_of_thieves)
 
 
 ////////////////////////////////////////////////////////////////
-PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, int number_of_thieves)
+PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, int number_of_thieves, std::shared_ptr<GazeboDriver> gazebo_driver_)
 {
 	// wait for agent connection
 	std::cout << "Wait for " << number_of_players << (number_of_players > 1 ? " players," : " player,") << std::endl;
@@ -47,8 +49,21 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
 	{
 		AgentPosition l_pos(area_->randomPosition(), CameraPosition(area_->getDistance() / 10. ) );
+		
+		// Create Guard
 		std::shared_ptr<Agent> l_agent = std::make_shared<Guard>(1, it->first, l_pos);
 		m_agents.insert(l_agent);
+		
+		if (gazebo_driver_)
+		  // Add Guard to Gazebo
+		{
+		  geometry_msgs::Pose::Ptr l_initialPoseG = boost::make_shared<geometry_msgs::Pose>();
+		  Real2D l_point1 = l_pos.getPoint2D();
+		  l_initialPoseG->position.x = l_point1[0];
+		  l_initialPoseG->position.y = l_point1[1];
+		  gazebo_driver_->addGuard(it->second, l_initialPoseG);
+		}
+		
 	}
 
 	// add thief to agents  
@@ -56,11 +71,24 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)
 	{
 		AgentPosition l_pos(Real2D(5,15)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
+		
+		// Create Thief
 		Real2D l_point = l_pos.getPoint2D();
 		ROS_INFO("Thief Position: %ld , %ld", (long int)l_point(0), (long int)l_point(1));
 
 		std::shared_ptr<Agent> l_agent = std::make_shared<Thief>(it->first, l_pos);
 		m_agents.insert(l_agent);
+		
+		if (gazebo_driver_)
+		  // Add Thief to Gazebo
+		{
+		  geometry_msgs::Pose::Ptr l_initialPoseT = boost::make_shared<geometry_msgs::Pose>();
+		  Real2D l_point2 = l_pos.getPoint2D();
+		  l_initialPoseT->position.x = l_point2[0];
+		  l_initialPoseT->position.y = l_point2[1];
+		  gazebo_driver_->addThief(it->second, l_initialPoseT);
+		}
+		
 	}
 }
 
