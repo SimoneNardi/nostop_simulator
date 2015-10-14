@@ -36,8 +36,8 @@ WorldUpdater::WorldUpdater(std::shared_ptr<LearningWorld> algorithm_)
 	: ThreadBase()
 	, m_algorithm(algorithm_)
 {
-  m_monitorPub = m_node.advertise<nav_msgs::OccupancyGrid>("MonitorUpdate", 10);
-  m_energyPub = m_node.advertise<nav_msgs::OccupancyGrid>("EnergyUpdate", 10);
+  m_monitorPub = m_node.advertise<nav_msgs::OccupancyGrid>("/monitor/update", 10);
+  m_energyPub = m_node.advertise<nav_msgs::OccupancyGrid>("/energy/update", 10);
 }
 
 ////////////////////////////////////////////////////////////

@@ -41,7 +41,7 @@ AlgorithmUpdater::AlgorithmUpdater(std::shared_ptr<LearningWorld> algorithm_, st
 	, m_algorithm(algorithm_)
 	, m_caller(caller_)
 {
-  m_neighboursPub = m_node.advertise<nav_msgs::OccupancyGrid>("NeighboursUpdate", 1);
+  m_neighboursPub = m_node.advertise<nav_msgs::OccupancyGrid>("/neighbours/update", 1);
 }
 
 ////////////////////////////////////////////////////////////

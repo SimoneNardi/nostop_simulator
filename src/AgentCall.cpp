@@ -9,18 +9,40 @@ using namespace std;
 using namespace Robotics;
 using namespace Robotics::GameTheory;
 
+#include "ros/ros.h"
+
+/////////////////////////////////////////////
+bool AgentCall::updateStatus_callback(
+  nostop_agent::PlayerNotifyStatus::Request  &req,
+  nostop_agent::PlayerNotifyStatus::Response &res)
+{
+  Lock1 l_locker( m_lockCall );
+  auto l_agent = m_call.find(req.id);
+  if (l_agent!=m_call.end())
+  {
+      m_call[req.id] == req.status;
+      return true;
+  }
+  else
+  {
+      return false;
+  }
+}
+
 /////////////////////////////////////////////
 AgentCall::AgentCall(std::set< std::shared_ptr<Guard> > & agent_)
 : m_notified( false )
 , m_call()
 {
-	m_pub = m_node.advertise<std_msgs::Bool>("/Simulator/AgentCall", 1);
+	m_pub = m_node.advertise<std_msgs::Bool>("/simulator/agent_call", 1);
+	
+	m_statusServer = m_node.advertiseService("/publisher/status", &AgentCall::updateStatus_callback, this);
   
 	for(auto it = agent_.begin(); it != agent_.end(); ++it)
 	{
 		GuardPtr l_agent = *it;
 		int l_id = l_agent->getID();
-		m_call.insert( std::make_pair( l_id, l_agent->getStatus() ) );
+		m_call.insert( std::make_pair( l_id, Agent::UNKNOWN ) );
 	}
 }
 
@@ -46,7 +68,6 @@ bool AgentCall::readyToGo() const
 /////////////////////////////////////////////
 void AgentCall::update(std::set< std::shared_ptr<Guard> >& agent_)
 {
-  
 	for(auto it = agent_.begin(); it != agent_.end(); ++it)
 	{
 		GuardPtr l_agent = *it;

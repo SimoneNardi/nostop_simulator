@@ -16,6 +16,7 @@
 #include "Threads.h"
 
 #include "ros/ros.h"
+#include "nostop_agent/PlayerNotifyStatus.h"
 
 namespace Robotics 
 {
@@ -32,6 +33,7 @@ namespace Robotics
 			
 			ros::NodeHandle m_node;
 			ros::Publisher m_pub;
+			ros::ServiceServer m_statusServer;
 			
 		public:
 			AgentCall(std::set< std::shared_ptr<Guard> >& agent_);
@@ -47,6 +49,10 @@ namespace Robotics
 			void notify();
 			
 			void reset();
+			
+			bool updateStatus_callback(
+			  nostop_agent::PlayerNotifyStatus::Request  &req,
+			  nostop_agent::PlayerNotifyStatus::Response &res);
 		};
 	}
 }

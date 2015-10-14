@@ -23,6 +23,7 @@ namespace Robotics
 			ros::NodeHandle m_node;
 			ros::Subscriber m_guardSubscriber;
 			ros::Subscriber m_thiefSubscriber;
+			ros::Subscriber m_statusSub;
 			
 			std::shared_ptr<Agent> m_agent;
 		  

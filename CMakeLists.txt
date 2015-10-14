@@ -68,7 +68,7 @@ set(simulator_SOURCES
 
 add_executable(Simulator ${simulator_SOURCES})
 target_link_libraries(Simulator ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} base_math lemon nostop_agent nostop_learning nostop_gazebo_simulator)
-add_dependencies(Simulator nostop_simulator_gencpp)
+add_dependencies(Simulator ${PROJECT_NAME}_gencpp)
 
 #############
 ## Install ##

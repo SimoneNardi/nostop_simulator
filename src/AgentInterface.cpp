@@ -54,16 +54,22 @@ void AgentInterface::ThiefStateUpdater(const nostop_agent::ThiefStateConstPtr& m
 AgentInterface::AgentInterface(std::shared_ptr<Agent> agent_)
 : m_agent(agent_)
 {
+  // TODO... switch from ID to Name:
   std::stringstream l_guardname;
-  l_guardname << "GuardState_";
+  l_guardname << "/state/guard/";
   l_guardname << m_agent->getID();
   
   std::stringstream l_thiefname;
-  l_thiefname << "Thief_State_";
+  l_thiefname << "/state/thief/";
   l_thiefname << m_agent->getID();
   
   m_guardSubscriber = m_node.subscribe(l_guardname.str().c_str(), 10, &AgentInterface::GuardStateUpdater, this);
   m_thiefSubscriber = m_node.subscribe(l_thiefname.str().c_str(), 10, &AgentInterface::ThiefStateUpdater, this);
+  
+  std::stringstream l_status_name;
+  l_status_name << "/notify_status/";
+  l_status_name  << m_agent->getID();
+
 }
 
 ////////////////////////////////////////////////////////////

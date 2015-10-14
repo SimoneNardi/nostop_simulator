@@ -80,7 +80,7 @@ void PlayerIDSender::sendIDToPlayer()
     
   this->start();
   
-  this->wait(2);
+  this->wait(5);
   
   l_spin.stop();
 }

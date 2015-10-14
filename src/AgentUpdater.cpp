@@ -42,10 +42,10 @@ void AgentUpdater::run()
 		    // TODO
 		    
 		}
-		else
-		{
-		    m_caller->update( m_guards );
-		}
+		//else
+		//{
+		//    m_caller->update( m_guards );
+		//}
 	}
 }
 
