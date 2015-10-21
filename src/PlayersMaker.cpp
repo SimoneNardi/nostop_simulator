@@ -70,7 +70,7 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDofThieves();
 	for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)
 	{
-		AgentPosition l_pos(Real2D(5,15)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
+		AgentPosition l_pos(Real2D(5,5)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
 		
 		// Create Thief
 		Real2D l_point = l_pos.getPoint2D();
