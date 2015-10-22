@@ -38,17 +38,43 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	// wait for agent connection
 	std::cout << "Wait for " << number_of_players << (number_of_players > 1 ? " players," : " player,") << std::endl;
 	std::cout << "and " << number_of_thieves << (number_of_thieves > 1 ? " thieves.": " thief.")<< std::endl;
-
+	
 	PlayerIDSender l_sender(number_of_players, number_of_thieves);
 	l_sender.sendIDToPlayer();
 	l_sender.stop();
+	
+	
+	ros::Rate r(1); // 5 hz
+  
+	std::set<Real2D> l_already_assigned;
+	l_already_assigned.insert(Real2D(5,5));
+	
 	
 	/////////////////////////////////////////
 	// Create Agent:
 	std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDofPlayers();
 	for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
 	{
-		AgentPosition l_pos(area_->randomPosition(), CameraPosition(area_->getDistance() / 10. ) );
+		Real2D l_position = area_->randomPosition();
+		bool l_notequal = false;
+		while(!l_notequal)
+		{
+		    if( l_already_assigned.find(l_position) != l_already_assigned.end())
+		    {
+		      r.sleep();
+		      l_position = area_->randomPosition();
+		    }
+		    else
+		    {
+		      l_already_assigned.insert(l_position);
+		      l_notequal = true;
+		    }
+		}
+		
+		AgentPosition l_pos(l_position, CameraPosition(area_->getDistance() / 10. ) );
+		
+		Real2D l_point = l_pos.getPoint2D();
+		ROS_INFO( "Guard %s Position: %ld , %ld", it->second.c_str(), (long int)l_point(0), (long int)l_point(1) );
 		
 		// Create Guard
 		std::shared_ptr<Agent> l_agent = std::make_shared<Guard>(1, it->first, l_pos);
@@ -64,8 +90,9 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 		  gazebo_driver_->addGuard(it->second, l_initialPoseG);
 		}
 		
+		r.sleep();
 	}
-
+	
 	// add thief to agents  
 	std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDofThieves();
 	for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)

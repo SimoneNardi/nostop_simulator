@@ -47,14 +47,14 @@ CoverageApplication::~CoverageApplication()
 {}
 
 bool CoverageApplication::start()
+// start updater threads
 {
 	// initialize algorithm
 	m_algorithm->start();
-  
-	// start updater threads
+	
 	if (m_agentUpdater)
 		m_agentUpdater->start();
-	
+  
 	if (m_worldUpdater)
 		m_worldUpdater->start();
 

@@ -18,9 +18,10 @@ bool AgentCall::updateStatus_callback(
 {
   Lock1 l_locker( m_lockCall );
   auto l_agent = m_call.find(req.id);
-  if (l_agent!=m_call.end())
+  if (l_agent != m_call.end())
   {
-      m_call[req.id] == req.status;
+      m_call[req.id] = static_cast<Agent::Status>(req.status);
+      ROS_INFO("Update Status of Agent %d", req.id);
       return true;
   }
   else
@@ -37,6 +38,8 @@ AgentCall::AgentCall(std::set< std::shared_ptr<Guard> > & agent_)
 	m_pub = m_node.advertise<std_msgs::Bool>("/simulator/agent_call", 1);
 	
 	m_statusServer = m_node.advertiseService("/publisher/status", &AgentCall::updateStatus_callback, this);
+	
+	ROS_INFO("/publisher/status ADVERTISED.\n");
   
 	for(auto it = agent_.begin(); it != agent_.end(); ++it)
 	{
@@ -56,6 +59,7 @@ bool AgentCall::readyToGo() const
 	{
 		if (it->second != Agent::STANDBY)
 		{
+			ROS_INFO("Agent %d not in StandBy!", it->first);
 			l_msg.data = false;
 			break;
 		}
