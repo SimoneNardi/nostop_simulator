@@ -71,8 +71,8 @@ bool PlayerIDSender::getValidGuardID(
 ////////////////////////////////////////////////////////////////
 void PlayerIDSender::sendIDToPlayer()
 {
-  m_serviceGuardID = m_node.advertiseService("GuardID", &PlayerIDSender::getValidGuardID, this);
-  m_serviceThiefID = m_node.advertiseService("ThiefID", &PlayerIDSender::getValidThiefID, this);
+  m_serviceGuardID = m_node.advertiseService("/simulator/guard/id", &PlayerIDSender::getValidGuardID, this);
+  m_serviceThiefID = m_node.advertiseService("/simulator/thief/id", &PlayerIDSender::getValidThiefID, this);
   
   ros::AsyncSpinner l_spin(0);
   if( l_spin.canStart() )

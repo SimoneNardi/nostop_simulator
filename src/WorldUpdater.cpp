@@ -20,6 +20,7 @@ void WorldUpdater::run()
 	int count = 0;
 	while (ros::ok())
 	{
+		// TODO ...update solo allo spostamento del ladro!
 		this->publish(l_data);
 		
 		ros::spinOnce();
@@ -27,7 +28,7 @@ void WorldUpdater::run()
 		loop_rate.sleep();
 		++count;
 
-		ROS_DEBUG("WorldUpdater Run.");
+		ROS_INFO("WorldUpdater Run.");
 	}
 }
 
@@ -36,8 +37,8 @@ WorldUpdater::WorldUpdater(std::shared_ptr<LearningWorld> algorithm_)
 	: ThreadBase()
 	, m_algorithm(algorithm_)
 {
-  m_monitorPub = m_node.advertise<nav_msgs::OccupancyGrid>("/monitor/update", 10);
-  m_energyPub = m_node.advertise<nav_msgs::OccupancyGrid>("/energy/update", 10);
+  m_monitorPub = m_node.advertise<nav_msgs::OccupancyGrid>("/simulator/monitor", 10);
+  m_energyPub = m_node.advertise<nav_msgs::OccupancyGrid>("/simulator/energy", 10);
 }
 
 ////////////////////////////////////////////////////////////
