@@ -13,7 +13,7 @@ PlayerIDSender::PlayerIDSender(int num_of_players, int num_of_thieves)
 , m_number_of_thieves(num_of_thieves)
 , m_num_active_players(0)
 , m_num_active_thieves(0)
-, m_id (-1)
+, m_num_active_agents (0)
 , m_ready(false)
 , m_IDPlayer()
 , m_IDThief()
@@ -47,7 +47,7 @@ bool PlayerIDSender::getValidThiefID(
 	nostop_agent::PlayerIDData::Request  &req,
 	nostop_agent::PlayerIDData::Response &res)
 {
-  res.id = ++m_id;
+  res.id = m_num_active_agents++;
   ++m_num_active_thieves;
   
   m_IDThief.insert( std::make_pair (res.id, req.name) );
@@ -60,7 +60,7 @@ bool PlayerIDSender::getValidGuardID(
 	nostop_agent::PlayerIDData::Request  &req,
 	nostop_agent::PlayerIDData::Response &res)
 {
-  res.id = ++m_id;
+  res.id = m_num_active_agents++;
   ++m_num_active_players;
   
   m_IDPlayer.insert( std::make_pair (res.id, req.name) );
@@ -69,8 +69,10 @@ bool PlayerIDSender::getValidGuardID(
 }
 
 ////////////////////////////////////////////////////////////////
-void PlayerIDSender::sendIDToPlayer()
+void PlayerIDSender::sendIDToPlayer(int num_active_agents)
 {
+  m_num_active_agents = num_active_agents;
+  
   m_serviceGuardID = m_node.advertiseService("/simulator/guard/id", &PlayerIDSender::getValidGuardID, this);
   m_serviceThiefID = m_node.advertiseService("/simulator/thief/id", &PlayerIDSender::getValidThiefID, this);
   

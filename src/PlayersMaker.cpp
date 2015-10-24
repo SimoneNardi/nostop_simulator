@@ -47,9 +47,7 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	ros::Rate r(1); // 5 hz
   
 	std::set<Real2D> l_already_assigned;
-	l_already_assigned.insert(Real2D(5,5));
-	
-	
+			
 	/////////////////////////////////////////
 	// Create Agent:
 	std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDofPlayers();
@@ -97,7 +95,24 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDofThieves();
 	for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)
 	{
-		AgentPosition l_pos(Real2D(5,5)/*area_->randomPosition()*/, CameraPosition(area_->getDistance() / 10. ) );
+		Real2D l_position = area_->randomPosition();
+		bool l_notequal = false;
+		while(!l_notequal)
+		{
+		    if( l_already_assigned.find(l_position) != l_already_assigned.end())
+		    {
+		      r.sleep();
+		      l_position = area_->randomPosition();
+		    }
+		    else
+		    {
+		      l_already_assigned.insert(l_position);
+		      l_notequal = true;
+		    }
+		}
+	  
+	  
+		AgentPosition l_pos(l_position, CameraPosition(area_->getDistance() / 10. ) );
 		
 		// Create Thief
 		Real2D l_point = l_pos.getPoint2D();

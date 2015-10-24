@@ -59,9 +59,13 @@ set(simulator_SOURCES
         src/AgentUpdater.cpp
         src/AlgorithmUpdater.cpp
         src/CoverageApplication.cpp
+        src/GuardAdder.cpp
+        src/PlayerAdder.cpp
         src/PlayerIDSender.cpp
+        src/PlayerRemover.cpp
         src/PlayersMaker.cpp
         src/Simulator.cpp
+        src/ThiefAdder.cpp
         src/VisualUpdater.cpp
         src/WorldUpdater.cpp
 )

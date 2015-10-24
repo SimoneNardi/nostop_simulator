@@ -39,7 +39,7 @@ namespace Robotics
 		  int m_num_active_players;
 		  int m_num_active_thieves;
 		  
-		  int m_id;
+		  int m_num_active_agents;
 		  
 		  std::map<int,std::string> m_IDPlayer;
 		  std::map<int,std::string> m_IDThief;
@@ -48,7 +48,7 @@ namespace Robotics
 			PlayerIDSender(int number_of_players = 3, int number_of_thieves = 1);
 			
 		public:
-			void sendIDToPlayer();
+			void sendIDToPlayer(int m_num_active_agents = 0);
 		
 			bool getValidGuardID(
 			  nostop_agent::PlayerIDData::Request  &req,
