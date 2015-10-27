@@ -20,6 +20,13 @@ PlayerIDSender::PlayerIDSender(int num_of_players, int num_of_thieves)
 {}
 
 ////////////////////////////////////////////////////////////////
+PlayerIDSender::~PlayerIDSender()
+{
+  m_serviceGuardID.shutdown();
+  m_serviceThiefID.shutdown();
+}
+
+////////////////////////////////////////////////////////////////
 void PlayerIDSender::run()
 {
   ros::Rate loop_rate(10);

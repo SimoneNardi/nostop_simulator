@@ -28,7 +28,7 @@ void WorldUpdater::run()
 		loop_rate.sleep();
 		++count;
 
-		ROS_INFO("WorldUpdater Run.");
+		ROS_DEBUG("WorldUpdater Run.");
 	}
 }
 

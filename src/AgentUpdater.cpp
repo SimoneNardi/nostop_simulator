@@ -32,11 +32,12 @@ void AgentUpdater::run()
 		
 		++count;
 		
-		ROS_INFO("AgentUpdater Run.");
+		ROS_DEBUG("AgentUpdater Run.");
 		
 		if ( m_caller->readyToGo() ) // used to avoid spurious wakeups 
 		{
-		    m_caller->notify();
+		    // notify to unlock the algorithm updater
+		    m_caller->notify(); 
 		    ROS_INFO("Agents are ready to forward learning step.");
 		    
 		    // TODO

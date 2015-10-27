@@ -47,6 +47,8 @@ namespace Robotics
 		public:
 			PlayerIDSender(int number_of_players = 3, int number_of_thieves = 1);
 			
+			~PlayerIDSender();
+			
 		public:
 			void sendIDToPlayer(int m_num_active_agents = 0);
 		
@@ -59,7 +61,7 @@ namespace Robotics
 			  nostop_agent::PlayerIDData::Response &res);
 			  
 			virtual void run();
-			
+						
 			void wait(int minute);
 			
 			int getNumberOfPlayer() {return m_num_active_players;}

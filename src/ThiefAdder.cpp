@@ -75,7 +75,7 @@ void ThiefAdder::run()
 		}
 	    }
       
-	    AgentPosition l_pos(l_position, CameraPosition(l_area->getDistance() / 10. ) );
+	    AgentPosition l_pos(l_position, CameraPosition( l_area->getDistance() / 10. ) );
 	    
 	    // Create Thief
 	    Real2D l_point = l_pos.getPoint2D();

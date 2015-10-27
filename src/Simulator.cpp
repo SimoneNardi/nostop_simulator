@@ -105,17 +105,17 @@ int main(int argc, char **argv)
 	l_application.start();
 	
 	ROS_INFO("Application is running.");
-	std::shared_ptr<Robotics::GameTheory::PlayerAdder> l_player_adder = std::make_shared<Robotics::GameTheory::PlayerAdder>(l_coverage, l_gazebo_driver);
-	std::shared_ptr<Robotics::GameTheory::PlayerRemover> l_player_remover = std::make_shared<Robotics::GameTheory::PlayerRemover>(l_coverage, l_gazebo_driver);
-		
-	l_player_adder->start();
-	l_player_remover->start();
+// 	std::shared_ptr<Robotics::GameTheory::PlayerAdder> l_player_adder = std::make_shared<Robotics::GameTheory::PlayerAdder>(l_coverage, l_gazebo_driver);
+// 	std::shared_ptr<Robotics::GameTheory::PlayerRemover> l_player_remover = std::make_shared<Robotics::GameTheory::PlayerRemover>(l_coverage, l_gazebo_driver);
+// 		
+// 	l_player_adder->start();
+// 	l_player_remover->start();
 	/////////////////////////////////////////////////
 	// WAIT FOR ROS MESSAGES
 	ros::spin();
 
-	l_player_adder->stop();
-	l_player_remover->stop();
+// 	l_player_adder->stop();
+// 	l_player_remover->stop();
 	
 	ROS_INFO("Ending process.");
 

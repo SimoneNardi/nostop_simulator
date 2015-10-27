@@ -25,7 +25,7 @@ void VisualUpdater::run()
 		loop_rate.sleep();
 		++count;
 
-		ROS_INFO("VisualUpdater Run.");
+		ROS_DEBUG("VisualUpdater Run.");
 	}
 }
 

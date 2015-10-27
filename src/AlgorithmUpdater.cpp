@@ -24,14 +24,14 @@ void AlgorithmUpdater::run()
 		
 		this->publish(l_data);
 
-		m_caller->reset();
+		//m_caller->reset();
 		
 		ros::spinOnce();
 
 		l_duration.sleep();
 		++count;
 		
-		ROS_INFO("AlgorithmUpdater Run.");
+		ROS_DEBUG("AlgorithmUpdater Run.");
 	}
 }
 
