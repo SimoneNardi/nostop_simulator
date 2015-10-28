@@ -38,7 +38,7 @@ void AgentUpdater::run()
 		{
 		    // notify to unlock the algorithm updater
 		    m_caller->notify(); 
-		    ROS_INFO("Agents are ready to forward learning step.");
+		    ROS_DEBUG("Agents are ready to forward learning step.");
 		    
 		    // TODO
 		    
