@@ -1,5 +1,8 @@
 #include "WorldUpdater.h"
+
 #include "learningWorld.h"
+#include "world.h"
+#include "discretizedArea.h"
 
 #include "ros/ros.h"
 #include "nav_msgs/OccupancyGrid.h"
@@ -50,13 +53,19 @@ void WorldUpdater::publish(std::vector<int8_t> & data_)
 {
   m_algorithm->worldUpdate();
   
-  nav_msgs::OccupancyGrid l_msg;
-    
-  m_algorithm->getMonitorScreenShot(data_);
-  l_msg.data = data_;
-  m_monitorPub.publish(l_msg);
+  nav_msgs::OccupancyGrid l_msg_monitor;
+  l_msg_monitor.info.height = m_algorithm->getWorld()->getSpace()->getNumRow();
+  l_msg_monitor.info.width = m_algorithm->getWorld()->getSpace()->getNumCol();
+  std::vector<int8_t> l_data_monitor;
+  m_algorithm->getMonitorScreenShot(l_data_monitor);
+  l_msg_monitor.data = l_data_monitor;
+  m_monitorPub.publish(l_msg_monitor);
   
-  m_algorithm->getEnergyScreenShot(data_);
-  l_msg.data = data_;
-  m_energyPub.publish(l_msg);
+  nav_msgs::OccupancyGrid l_msg_energy;
+  l_msg_energy.info.height = m_algorithm->getWorld()->getSpace()->getNumRow();
+  l_msg_energy.info.width = m_algorithm->getWorld()->getSpace()->getNumCol();
+  std::vector<int8_t> l_data_energy;
+  m_algorithm->getEnergyScreenShot(l_data_energy);
+  l_msg_energy.data = l_data_energy;
+  m_energyPub.publish(l_msg_energy);
 }
