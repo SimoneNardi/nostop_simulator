@@ -20,3 +20,9 @@ void PlayerRemover::run()
 {
   return;
 }
+
+//////////////////////////////////////////////
+PlayerRemover::~PlayerRemover()
+{
+  this->stop();
+}

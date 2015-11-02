@@ -30,6 +30,7 @@ namespace Robotics
 		  		  
 		public:
 			PlayerAdder(std::shared_ptr<Robotics::GameTheory::LearningWorld> coverage_, std::shared_ptr<GazeboDriver> gazebo_driver_);
+			~PlayerAdder();
 			
 			void start();
 			void stop();

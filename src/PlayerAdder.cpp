@@ -32,3 +32,9 @@ void PlayerAdder::stop()
   m_guard_adder->stop();
   m_thief_adder->stop();
 }
+
+//////////////////////////////////////////////
+PlayerAdder::~PlayerAdder()
+{
+  this->stop();
+}

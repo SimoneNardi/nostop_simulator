@@ -31,7 +31,7 @@ namespace Robotics
 		  
 		public:
 			PlayerRemover(std::shared_ptr<Robotics::GameTheory::LearningWorld> coverage_, std::shared_ptr<GazeboDriver> gazebo_driver_);
-			
+			~PlayerRemover();
 		public:
 			virtual void run();
 		};
