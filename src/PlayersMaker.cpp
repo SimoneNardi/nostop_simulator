@@ -42,8 +42,7 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	PlayerIDSender l_sender(number_of_players, number_of_thieves);
 	l_sender.sendIDToPlayer();
 	l_sender.stop();
-	
-	
+		
 	ros::Rate r(1); // 5 hz
   
 	std::set<Real2D> l_already_assigned;
