@@ -18,26 +18,10 @@ void AgentInterface::GuardStateUpdater(const nostop_agent::GuardStateConstPtr& m
   AgentPosition l_position_and_camera (Real2D( double(msg->odometry.pose.pose.position.x), double(msg->odometry.pose.pose.position.y) ), l_camera);
   
   m_agent->setCurrentPosition(l_position_and_camera);
-    
-//   Agent::Status l_stat = Agent::ACTIVE;
-//   switch( int32_t(1) )//msg->status) ) // CONTROLLARE
-//   {
-//     case 0:
-//       l_stat = Agent::ACTIVE;
-//       break;
-//     case 1:
-//     default:
-//       l_stat = Agent::DISABLE;
-//       break;
-//     case 2:
-//       l_stat = Agent::STANDBY;
-//       break;
-//     case 3:
-//       l_stat = Agent::WAKEUP;
-//       break;
-//   }
-//   
-//   m_agent->setStatus( l_stat );
+  
+  ROS_DEBUG("Position %f, %f\nCamera ctrl: %f, %f, %f, %f.\n", 
+	   msg->odometry.pose.pose.position.x, msg->odometry.pose.pose.position.y, 
+	   msg->sensor.max_radius, msg->sensor.min_radius, msg->sensor.heading, msg->sensor.fov);
 }
 
 ////////////////////////////////////////////////////////////
@@ -62,8 +46,8 @@ AgentInterface::AgentInterface(std::shared_ptr<Agent> agent_)
   l_thiefname << "/publisher/state/thief/";
   l_thiefname << m_agent->getID();
   
-  m_guardSubscriber = m_node.subscribe(l_guardname.str().c_str(), 10, &AgentInterface::GuardStateUpdater, this);
-  m_thiefSubscriber = m_node.subscribe(l_thiefname.str().c_str(), 10, &AgentInterface::ThiefStateUpdater, this);
+  m_guardSubscriber = m_node.subscribe(l_guardname.str().c_str(), 1, &AgentInterface::GuardStateUpdater, this);
+  m_thiefSubscriber = m_node.subscribe(l_thiefname.str().c_str(), 1, &AgentInterface::ThiefStateUpdater, this);
 }
 
 ////////////////////////////////////////////////////////////
