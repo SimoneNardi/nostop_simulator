@@ -6,6 +6,8 @@ using namespace std;
 using namespace Robotics;
 using namespace Robotics::GameTheory;
 
+const int WAIT_MINUTES = 5;
+
 ////////////////////////////////////////////////////////////////
 PlayerIDSender::PlayerIDSender(int num_of_players, int num_of_thieves)
 : ThreadBase()
@@ -89,7 +91,7 @@ void PlayerIDSender::sendIDToPlayer(int num_active_agents)
     
   this->start();
   
-  this->wait(5);
+  this->wait(WAIT_MINUTES);
   
   l_spin.stop();
 }
