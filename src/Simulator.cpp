@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-	  l_number_of_guards = 2;
+	  l_number_of_guards = 7;
 	  ROS_ERROR("Apriori number of guards: %d", l_number_of_guards);
 	}
 	
