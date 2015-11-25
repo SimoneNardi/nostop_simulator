@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-	  l_number_of_guards = 7;
+	  l_number_of_guards = 1;
 	  ROS_ERROR("Apriori number of guards: %d", l_number_of_guards);
 	}
 	
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 	// AREA CREATOR
 	Robotics::GameTheory::AreaPtr l_area = nullptr;
 	ros::NodeHandle l_nodeArea;
-	ros::ServiceClient l_clientArea = l_nodeArea.serviceClient<nostop_area::AreaData>("AreaInitializer");
+	ros::ServiceClient l_clientArea = l_nodeArea.serviceClient<nostop_area::AreaData>("/Area/AreaInitializer");
 	nostop_area::AreaData l_srvArea;
 	if (l_clientArea.call(l_srvArea))
 	{
