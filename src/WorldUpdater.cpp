@@ -73,7 +73,7 @@ void WorldUpdater::publish(std::vector<int8_t> & data_)
       
     if(l_max < l_data_monitor[i])
       l_max = l_data_monitor[i];
-  }  
+  }
   
   for(auto i = 0; i < l_data_monitor.size(); ++i)
     data_[i] = (l_data_monitor.at(i) - l_min) / l_max * 100.;

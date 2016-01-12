@@ -14,7 +14,7 @@ using namespace Robotics::GameTheory;
 ///////////////////////////////////////////////////////////
 void AlgorithmUpdater::run()
 {
-	ros::Duration l_duration(5.0);
+	ros::Duration l_duration(1.0);
 
 	ROS_INFO("Application is running on AlgorithmUpdater thread.");
 
@@ -85,6 +85,7 @@ void AlgorithmUpdater::publish(std::vector<int8_t> & data_)
   l_msg.info.resolution = (l_space->getXStep() + l_space->getYStep()) / 2;
   l_msg.info.origin = l_origin;
   l_msg.header.frame_id = "world";
+  //l_msg.header.seq = ros::Time::now();
     
   l_msg.data = data_;
   m_neighboursPub.publish(l_msg);
