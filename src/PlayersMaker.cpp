@@ -84,6 +84,14 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 		  Real2D l_point1 = l_pos.getPoint2D();
 		  l_initialPoseG->position.x = l_point1[0];
 		  l_initialPoseG->position.y = l_point1[1];
+		  
+		  geometry_msgs::Quaternion l_orientation;
+		  l_orientation.x =0;
+		  l_orientation.y =0;
+		  l_orientation.z =0;
+		  l_orientation.w =1;
+		  l_initialPoseG->orientation = l_orientation;
+		  
 		  gazebo_driver_->addGuard(it->second, l_initialPoseG);
 		}
 		
@@ -127,6 +135,14 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 		  Real2D l_point2 = l_pos.getPoint2D();
 		  l_initialPoseT->position.x = l_point2[0];
 		  l_initialPoseT->position.y = l_point2[1];
+		  
+		  geometry_msgs::Quaternion l_orientation;
+		  l_orientation.x =0;
+		  l_orientation.y =0;
+		  l_orientation.z =0;
+		  l_orientation.w =1;
+		  l_initialPoseT->orientation = l_orientation;
+		  
 		  gazebo_driver_->addThief(it->second, l_initialPoseT);
 		}
 		

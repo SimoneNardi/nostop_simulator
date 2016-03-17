@@ -83,7 +83,7 @@ void WorldUpdater::publish(std::vector<int8_t> & data_)
   l_msg_monitor.info.width = l_space->getNumCol();
   l_msg_monitor.info.resolution = (l_space->getXStep() + l_space->getYStep()) / 2;
   l_msg_monitor.info.origin = l_origin;
-  l_msg_monitor.header.frame_id = "world";
+  l_msg_monitor.header.frame_id = "map";
   l_msg_monitor.data = data_;
   
   m_monitorPub.publish(l_msg_monitor);

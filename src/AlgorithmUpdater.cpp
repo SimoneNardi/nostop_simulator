@@ -84,7 +84,7 @@ void AlgorithmUpdater::publish(std::vector<int8_t> & data_)
   l_msg.info.width = l_space->getNumCol();
   l_msg.info.resolution = (l_space->getXStep() + l_space->getYStep()) / 2;
   l_msg.info.origin = l_origin;
-  l_msg.header.frame_id = "world";
+  l_msg.header.frame_id = "map";
   //l_msg.header.seq = ros::Time::now();
     
   l_msg.data = data_;
