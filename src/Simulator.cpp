@@ -42,9 +42,11 @@ int main(int argc, char **argv)
 	
 	std::string l_str;
 	ros::NodeHandle l_node("~");
-	if (l_node.getParam("number_of_guards", l_str))
+	std::string temp_name;
+	if (l_node.searchParam("number_of_guards", temp_name))
 	{
-	  l_number_of_guards = std::stoi(l_str);
+	  l_node.getParam(temp_name,l_number_of_guards);
+	  //l_number_of_guards = std::stoi(l_str);
 	  ROS_INFO("Received number of guards: %d", l_number_of_guards);
 	}
 	else
@@ -53,9 +55,10 @@ int main(int argc, char **argv)
 	  ROS_ERROR("Apriori number of guards: %d", l_number_of_guards);
 	}
 	
-	if (l_node.getParam("number_of_thieves", l_str))
+	if (l_node.searchParam("number_of_thieves", temp_name))
 	{
-	  l_number_of_thieves = std::stoi(l_str);
+	  l_node.getParam(temp_name,l_number_of_thieves);
+	  //l_number_of_thieves = std::stoi(l_str);
 	  ROS_INFO("Received number of thieves: %d", l_number_of_thieves);
 	}
 	else

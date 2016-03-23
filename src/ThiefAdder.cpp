@@ -54,7 +54,7 @@ void ThiefAdder::run()
     
     ///////////////////////////////////////
     // add thief to agents  
-    std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDofThieves();
+    std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDOfThieves();
     for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)
     {
 	    r.sleep();

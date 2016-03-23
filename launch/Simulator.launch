@@ -1,11 +1,14 @@
+<?xml version="1.0" ?>
 <launch>
     
   <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
     
   <node pkg="nostop_simulator" type="Simulator" name="$(anon Simulator)" required="true" output="screen">
-    <param name="number_of_guards" value="1" />
+    <param name="number_of_guards" value="7" />
     <param name="number_of_thieves" value="1" />
   </node>
+  
+<!--   <include file="$(find nostop_analysis)/launch/analysis.launch"/> -->
   
   <!--> <node pkg="gazebo_ros" type="gazebo" name="$(anon SimulatorGazebo)" required="true" output="screen" /> <!-->
     

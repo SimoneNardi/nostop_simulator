@@ -54,7 +54,7 @@ void GuardAdder::run()
     
     /////////////////////////////////////////
     // Create Agent:
-    std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDofPlayers();
+    std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDOfSimPlayers();
     for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
     {
 	  r.sleep();
@@ -92,10 +92,53 @@ void GuardAdder::run()
 	    Real2D l_point1 = l_pos.getPoint2D();
 	    l_initialPoseG->position.x = l_point1[0];
 	    l_initialPoseG->position.y = l_point1[1];
-	    m_gazebo_driver->addGuard(it->second, l_initialPoseG);
+	    m_gazebo_driver->addGuard(it->second, l_initialPoseG, 2);
 	  }
     }
     ///
+    
+    l_IDOfPlayersMap = l_sender.getIDOfRealPlayers();
+    for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
+    {
+	  r.sleep();
+	  Real2D l_position;
+	  l_area->getRandomPosition(l_position);
+	  bool l_notequal = false;
+	  while(!l_notequal)
+	  {
+	      if( l_already_assigned.find(l_position) != l_already_assigned.end())
+	      {
+		r.sleep();
+		l_area->getRandomPosition(l_position);
+	      }
+	      else
+	      {
+		l_already_assigned.insert(l_position);
+		l_notequal = true;
+	      }
+	  }
+	    
+	  AgentPosition l_pos( l_position, CameraPosition( l_area->getDistance() / 10. ) );
+	  
+	  Real2D l_point = l_pos.getPoint2D();
+	  ROS_INFO( "Guard %s Position: %ld, %ld", it->second.c_str(), (long int)l_point(0), (long int)l_point(1) );
+	  
+	  // Create Guard
+	  std::shared_ptr<Agent> l_agent = std::make_shared<Guard>(1, it->first, l_pos);
+	  
+	  m_coverage->addGuard(l_agent);
+	  
+	  if (m_gazebo_driver)
+	    // Add Guard to Gazebo
+	  {
+	    geometry_msgs::Pose::Ptr l_initialPoseG = boost::make_shared<geometry_msgs::Pose>();
+	    Real2D l_point1 = l_pos.getPoint2D();
+	    l_initialPoseG->position.x = l_point1[0];
+	    l_initialPoseG->position.y = l_point1[1];
+	    m_gazebo_driver->addGuard(it->second, l_initialPoseG, 0);
+	  }
+    }
+    
     
     ros::spinOnce();
 

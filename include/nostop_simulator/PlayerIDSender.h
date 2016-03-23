@@ -41,7 +41,8 @@ namespace Robotics
 		  
 		  int m_num_active_agents;
 		  
-		  std::map<int,std::string> m_IDPlayer;
+		  std::map<int,std::string> m_RealIDPlayer;
+		  std::map<int,std::string> m_SimIDPlayer;
 		  std::map<int,std::string> m_IDThief;
 		  
 		public:
@@ -67,8 +68,9 @@ namespace Robotics
 			int getNumberOfPlayer() {return m_num_active_players;}
 			int getNumberOfThieves() {return m_num_active_thieves;}
 			
-			std::map<int,std::string> getIDofPlayers() const {return m_IDPlayer;}
-			std::map<int,std::string> getIDofThieves() const {return m_IDThief;}
+			std::map<int,std::string> getIDOfSimPlayers() const {return m_SimIDPlayer;}
+			std::map<int,std::string> getIDOfRealPlayers() const {return m_RealIDPlayer;}
+			std::map<int,std::string> getIDOfThieves() const {return m_IDThief;}
 		};
 
 	}

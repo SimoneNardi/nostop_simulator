@@ -48,8 +48,8 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 	std::set<Real2D> l_already_assigned;
 			
 	/////////////////////////////////////////
-	// Create Agent:
-	std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDofPlayers();
+	// Simulated Player
+	std::map<int,std::string> l_IDOfPlayersMap = l_sender.getIDOfSimPlayers();
 	for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
 	{
 		Real2D l_position = area_->randomPosition();
@@ -92,14 +92,66 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 		  l_orientation.w =1;
 		  l_initialPoseG->orientation = l_orientation;
 		  
-		  gazebo_driver_->addGuard(it->second, l_initialPoseG);
+		  gazebo_driver_->addGuard(it->second, l_initialPoseG, 2);
 		}
 		
 		r.sleep();
 	}
 	
+	///////////////////////////
+	// Real Player
+	l_IDOfPlayersMap = l_sender.getIDOfRealPlayers();
+	for (std::map<int,std::string>::iterator it = l_IDOfPlayersMap.begin();  it != l_IDOfPlayersMap.end() ; ++it)
+	{
+		Real2D l_position = area_->randomPosition();
+		bool l_notequal = false;
+		while(!l_notequal)
+		{
+		    if( l_already_assigned.find(l_position) != l_already_assigned.end())
+		    {
+		      r.sleep();
+		      l_position = area_->randomPosition();
+		    }
+		    else
+		    {
+		      l_already_assigned.insert(l_position);
+		      l_notequal = true;
+		    }
+		}
+		
+		AgentPosition l_pos(l_position, CameraPosition(area_->getDistance() / 10. ) );
+		
+		Real2D l_point = l_pos.getPoint2D();
+		ROS_INFO( "Guard %s Position: %ld , %ld", it->second.c_str(), (long int)l_point(0), (long int)l_point(1) );
+		
+		// Create Guard
+		std::shared_ptr<Agent> l_agent = std::make_shared<Guard>(1, it->first, l_pos);
+		m_agents.insert(l_agent);
+		
+		if (gazebo_driver_)
+		  // Add Guard to Gazebo
+		{
+		  geometry_msgs::Pose::Ptr l_initialPoseG = boost::make_shared<geometry_msgs::Pose>();
+		  Real2D l_point1 = l_pos.getPoint2D();
+		  l_initialPoseG->position.x = l_point1[0];
+		  l_initialPoseG->position.y = l_point1[1];
+		  
+		  geometry_msgs::Quaternion l_orientation;
+		  l_orientation.x =0;
+		  l_orientation.y =0;
+		  l_orientation.z =0;
+		  l_orientation.w =1;
+		  l_initialPoseG->orientation = l_orientation;
+		  
+		  gazebo_driver_->addGuard(it->second, l_initialPoseG, 0);
+		}
+		
+		r.sleep();
+	}
+	
+	///////////////////////////
 	// add thief to agents  
-	std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDofThieves();
+	std::map<int,std::string> l_IDOfThievesMap = l_sender.getIDOfThieves();
 	for (std::map<int,std::string>::iterator it = l_IDOfThievesMap.begin();  it != l_IDOfThievesMap.end() ; ++it)
 	{
 		Real2D l_position = area_->randomPosition();
@@ -145,7 +197,6 @@ PlayersMaker::PlayersMaker(std::shared_ptr<Area> area_, int number_of_players, i
 		  
 		  gazebo_driver_->addThief(it->second, l_initialPoseT);
 		}
-		
 	}
 }
 

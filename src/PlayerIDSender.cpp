@@ -17,7 +17,8 @@ PlayerIDSender::PlayerIDSender(int num_of_players, int num_of_thieves)
 , m_num_active_thieves(0)
 , m_num_active_agents (0)
 , m_ready(false)
-, m_IDPlayer()
+, m_SimIDPlayer()
+, m_RealIDPlayer()
 , m_IDThief()
 {}
 
@@ -72,7 +73,10 @@ bool PlayerIDSender::getValidGuardID(
   res.id = m_num_active_agents++;
   ++m_num_active_players;
   
-  m_IDPlayer.insert( std::make_pair (res.id, req.name) );
+  if( req.type == 0 )
+    m_RealIDPlayer.insert( std::make_pair (res.id, req.name) );
+  else
+    m_SimIDPlayer.insert( std::make_pair (res.id, req.name) );
     
   return true;
 }
