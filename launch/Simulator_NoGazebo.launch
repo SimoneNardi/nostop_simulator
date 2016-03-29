@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <launch>
     
-  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+<!--   <include file="$(find gazebo_ros)/launch/empty_world.launch"/> -->
     
   <node pkg="nostop_simulator" type="Simulator" name="Simulator" required="true" output="screen">
     <param name="number_of_guards" value="7" />
